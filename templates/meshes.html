@@ -1,0 +1,53 @@
+<h4>New Mesh</h4>
+<div ng-controller="MeshesController">
+	<div class="panel-group" id="meshBlueprintsAccordion">
+
+		<div class="panel panel-default" ng-repeat="meshBlueprint in meshBlueprints track by $index">
+			<div class="panel-heading">
+				<h4 class="panel-title">
+					<a href="#" data-toggle="collapse" data-parent="#meshBlueprintsAccordion" data-target="#collapse-{{meshBlueprint.id}}">{{meshBlueprint.id}}</a>
+				</h4>
+			</div>
+			<div id="collapse-{{meshBlueprint.id}}" class="panel-collapse collapse">
+				<div class="panel-body">
+					<!-- OPTIONS -->
+					<h4>Options</h4>
+					<div ng-repeat="(key, value) in meshBlueprint.options">
+						<div class="form-group">
+							<label class="control-label col-sm-4">
+								{{key}}
+							</label>
+							<div class="col-sm-8">
+								<input type="text" ng-model="meshBlueprint['options'][key]['value']" class="input-sm form-control"/>
+							</div>
+						</div>
+					</div>
+					<!-- PROPERTIES -->
+					<h4>Properties</h4>
+					<div ng-repeat="(key, value) in meshBlueprint.properties">
+						<div class="form-group">
+							<label class="control-label col-sm-4">
+								{{key}}
+							</label>
+							<div class="col-sm-8">
+								<div ng-switch="value.type">
+									<div ng-switch-when="Vector3">
+										<input class="input-sm form-control short pull-left" placeholder="x" ng-model="meshBlueprint['properties'][key]['x']" />
+										<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshBlueprint['properties'][key]['y']" />
+										<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshBlueprint['properties'][key]['z']" />
+									</div>
+									<div ng-switch-default>
+										<input type="text" ng-model="meshBlueprint['properties'][key]['value']" class="input-sm form-control"/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- BUTTONS -->
+					<button class="btn btn-default" ng-click="create($index)">Create</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,43 @@
+{
+  "id": "abstractMesh",
+  "options": {
+    "updateable": {
+      "value": false,
+      "type": "boolean"
+    },
+    "sideOrientation": {
+      "value": "BABYLON.Mesh.DEFAULTSIDE",
+      "isConstant": true,
+      "type": "select",
+      "availableOptions": [
+        "BABYLON.Mesh.DEFAULTSIDE",
+        "BABYLON.Mesh.BACKSIDE",
+        "BABYLON.Mesh.DOUBLESIDE"
+      ]
+    }
+  },
+  "properties": {
+    "visibility": {
+      "type": "integer",
+      "value": 1
+    },
+    "position": {
+      "type": "Vector3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "rotation": {
+      "type": "Vector3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "scaling": {
+      "type": "Vector3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    }
+  }
+}

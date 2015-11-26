@@ -1,0 +1,31 @@
+<h4>Selected Mesh</h4>
+<div ng-controller="MeshesController">
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">{{meshManager.selectedMesh.id}}</h4>
+		</div>
+		<div class="panel-body">
+			<div ng-repeat="(key, value) in abstractMeshBlueprint.properties">
+				<div class="form-group">
+					<label class="control-label col-sm-4">
+						{{key}}
+					</label>
+					<div class="col-sm-8">
+						<div ng-switch="value.type">
+							<div ng-switch-when="Vector3">
+								<input class="input-sm form-control short pull-left" placeholder="x" ng-model="meshManager.selectedMesh[key]['x']" />
+								<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshManager.selectedMesh[key]['y']" />
+								<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshManager.selectedMesh[key]['z']" />
+							</div>
+							<div ng-switch-default>
+								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMesh['visibility']['value']" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

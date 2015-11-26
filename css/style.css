@@ -1,0 +1,46 @@
+/* line 3, ../sass/style.scss */
+html, body, canvas {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  color: #999;
+}
+
+/* line 11, ../sass/style.scss */
+canvas {
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* line 20, ../sass/style.scss */
+.ui {
+  position: absolute;
+  z-index: 1;
+}
+/* line 24, ../sass/style.scss */
+.ui.left {
+  left: 15px;
+}
+/* line 28, ../sass/style.scss */
+.ui.right {
+  right: 15px;
+}
+/* line 32, ../sass/style.scss */
+.ui .panel {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+/* line 37, ../sass/style.scss */
+.form-horizontal .control-label {
+  text-align: left;
+}
+
+/* line 41, ../sass/style.scss */
+.short {
+  max-width: 50px;
+}

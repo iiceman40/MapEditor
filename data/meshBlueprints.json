@@ -1,0 +1,52 @@
+[
+  {
+    "id": "box",
+    "options": {
+      "size": {
+        "value": null,
+        "type": "number"
+      },
+      "height": {
+        "value": null,
+        "type": "number"
+      },
+      "width": {
+        "value": null,
+        "type": "number"
+      },
+      "depth": {
+        "value": null,
+        "type": "number"
+      }
+    }
+  },
+  {
+    "id": "sphere",
+    "options": {
+      "diameter": {
+        "value": null,
+        "type": "number"
+      },
+      "diameterX": {
+        "value": null,
+        "type": "number"
+      },
+      "diameterY": {
+        "value": null,
+        "type": "number"
+      },
+      "diameterZ": {
+        "value": null,
+        "type": "number"
+      },
+      "arc": {
+        "value": null,
+        "type": "number"
+      },
+      "slice": {
+        "value": null,
+        "type": "number"
+      }
+    }
+  }
+]
