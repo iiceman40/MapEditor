@@ -3,9 +3,12 @@
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<h4 class="panel-title">{{meshManager.selectedMesh.id}}</h4>
+			<h4 class="panel-title">
+				<span ng-if="meshManager.selectedMesh != null">{{meshManager.selectedMesh.id}}</span>
+				<span ng-if="meshManager.selectedMesh == null">No Mesh Selected</span>
+			</h4>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body" ng-if="meshManager.selectedMesh">
 			<div ng-repeat="(key, value) in abstractMeshBlueprint.properties">
 				<div class="form-group">
 					<label class="control-label col-sm-4">
@@ -14,12 +17,14 @@
 					<div class="col-sm-8">
 						<div ng-switch="value.type">
 							<div ng-switch-when="Vector3">
+								<!-- access to values in BABYLON.Vector3 type property -->
 								<input class="input-sm form-control short pull-left" placeholder="x" ng-model="meshManager.selectedMesh[key]['x']" />
 								<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshManager.selectedMesh[key]['y']" />
 								<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshManager.selectedMesh[key]['z']" />
 							</div>
 							<div ng-switch-default>
-								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMesh['visibility']['value']" />
+								<!-- direct property access of currently selected mesh -->
+								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMesh[key]" />
 							</div>
 						</div>
 					</div>

@@ -62,7 +62,7 @@ MeshManager.prototype.applyProperties = function (mesh, properties) {
 						default:
 							// set property on mesh as a string or integer value
 							if (property.hasOwnProperty('value')) {
-								console.log('setting value ', property.value, ' for roperty ' + propertyName);
+								console.log('setting value ', property.value, ' for property ' + propertyName);
 								mesh[propertyName] = property.value;
 							}
 					}
@@ -81,4 +81,12 @@ MeshManager.prototype.selectMesh = function(pickResult){
 		var pickedMesh = pickResult.pickedMesh;
 		this.selectedMesh = pickedMesh;
 	}
+};
+
+/**
+ * selects a mesh by a given id
+ * @param id
+ */
+MeshManager.prototype.selectMeshById = function(id){
+	this.selectedMesh = this.meshes[id];
 };

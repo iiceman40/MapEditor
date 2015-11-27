@@ -4,7 +4,9 @@
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<ul ng-repeat="(key, value) in meshManager.meshes" class="list-unstyled">
-				<li>{{value.id}}</li>
+				<li>
+					<a href="#" ng-click="meshManager.selectMeshById(value.id)">{{value.id}}</a>
+				</li>
 				</ul>
 			</div>
 		</div>
