@@ -1,49 +1,21 @@
 var app = angular.module('editorApplication', []);
-console.log('app init');
 
-app.controller('MeshesController', function ($scope, $http) {
+/**
+ * CONTROLLERS
+ */
+app.controller('CreateMeshController', function ($scope, MeshesService) {
+	console.log('init CreateMeshController');
 	$scope.meshManager = meshManager;
 
-	$http.get('data/abstractMeshBlueprint.json').then(function (abstractMeshBlueprintResponse) {
-		$scope.abstractMeshBlueprint = abstractMeshBlueprintResponse.data;
-		console.log($scope.abstractMeshBlueprint);
-
-		$http.get('data/meshBlueprints.json').then(function (meshBlueprintsResponse) {
-			$scope.meshBlueprints = meshBlueprintsResponse.data;
-			console.log($scope.meshBlueprints);
-
-			// initialize mesh blueprints
-			var abstractMeshBlueprint = $scope.abstractMeshBlueprint;
-			for (var i = 0; i < $scope.meshBlueprints.length; i++) {
-
-				// merge actual meshes with abstract mesh properties
-				var meshBlueprint = $scope.meshBlueprints[i];
-				for (var optionName in abstractMeshBlueprint.options) {
-					if (abstractMeshBlueprint.options.hasOwnProperty(optionName)) {
-						// copy from the options from teh abstract to the actual blueprint
-						if (!meshBlueprint.options.hasOwnProperty(optionName)) {
-							meshBlueprint.options[optionName] = abstractMeshBlueprint.options[optionName];
-						}
-					}
-				}
-
-				// copy all mesh properties defined in the abstract mesh to the actual mesh
-				meshBlueprint.properties = {};
-				for (var propertyName in abstractMeshBlueprint.properties) {
-					if(abstractMeshBlueprint.properties.hasOwnProperty(propertyName)) {
-						meshBlueprint.properties[propertyName] = abstractMeshBlueprint.properties[propertyName];
-					}
-				}
-			}
-
-			console.log($scope.meshBlueprints);
-
-		});
+	// get the mesh data with the help of the MeshesService
+	MeshesService.getCompleteMeshBlueprints().then(function(data) {
+		console.log(data);
+		$scope.meshBlueprints = data.meshBlueprints;
+		$scope.abstractMeshBlueprint = data.abstractMeshBlueprint;
 	});
 
 	$scope.create = function ($index) {
 		var meshBlueprint = $scope.meshBlueprints[$index];
-		var abstractMeshBlueprint = $scope.abstractMeshBlueprint;
 
 		var options = {};
 		for (var option in meshBlueprint.options) {
@@ -53,10 +25,67 @@ app.controller('MeshesController', function ($scope, $http) {
 			}
 		}
 
-		console.log('creating mesh');
 		var mesh = $scope.meshManager.create(meshBlueprint.id, options);
-		console.log('mesh created ', mesh);
-		// set property values
 		$scope.meshManager.applyProperties(mesh, meshBlueprint.properties)
 	}
+});
+
+app.controller('ListMeshesController', function ($scope, MeshesService) {
+	console.log('init ListMeshesController');
+	$scope.meshManager = meshManager;
+});
+
+app.controller('SelectedMeshController', function ($scope, MeshesService) {
+	console.log('init SelectedMeshController');
+	$scope.meshManager = meshManager;
+
+	// get the mesh data with the help of the MeshesService
+	MeshesService.getCompleteMeshBlueprints().then(function(data) {
+		console.log(data);
+		$scope.meshBlueprints = data.meshBlueprints;
+		$scope.abstractMeshBlueprint = data.abstractMeshBlueprint;
+	});
+});
+
+/**
+ * SERVICES
+ */
+app.factory('MeshesService', function($http) {
+	console.log('init MeshesService');
+	var promise;
+	return {
+		getCompleteMeshBlueprints: function(){
+			if(!promise) {
+				promise = $http.get('data/abstractMeshBlueprint.json').then(function (abstractMeshBlueprintResponse) {
+					var abstractMeshBlueprint = abstractMeshBlueprintResponse.data;
+
+					return $http.get('data/meshBlueprints.json').then(function (meshBlueprintsResponse) {
+						var meshBlueprints = meshBlueprintsResponse.data;
+
+						// initialize mesh blueprints
+						for (var i = 0; i < meshBlueprints.length; i++) {
+
+							// merge actual meshes with abstract mesh properties
+							var meshBlueprint = meshBlueprints[i];
+							for (var optionName in abstractMeshBlueprint.options) {
+								if (abstractMeshBlueprint.options.hasOwnProperty(optionName)) {
+									// copy from the options from teh abstract to the actual blueprint
+									if (!meshBlueprint.options.hasOwnProperty(optionName)) {
+										meshBlueprint.options[optionName] = abstractMeshBlueprint.options[optionName];
+									}
+								}
+							}
+						}
+						return {
+							meshBlueprints: meshBlueprints,
+							abstractMeshBlueprint: abstractMeshBlueprint
+						};
+
+					});
+
+				});
+			}
+			return promise;
+		}
+	};
 });

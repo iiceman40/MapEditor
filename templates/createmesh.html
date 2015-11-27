@@ -1,5 +1,6 @@
 <h4>New Mesh</h4>
-<div ng-controller="MeshesController">
+<div ng-controller="CreateMeshController">
+
 	<div class="panel-group" id="meshBlueprintsAccordion">
 
 		<div class="panel panel-default" ng-repeat="meshBlueprint in meshBlueprints track by $index">
@@ -22,27 +23,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- PROPERTIES -->
-					<h4>Properties</h4>
-					<div ng-repeat="(key, value) in meshBlueprint.properties">
-						<div class="form-group">
-							<label class="control-label col-sm-4">
-								{{key}}
-							</label>
-							<div class="col-sm-8">
-								<div ng-switch="value.type">
-									<div ng-switch-when="Vector3">
-										<input class="input-sm form-control short pull-left" placeholder="x" ng-model="meshBlueprint['properties'][key]['x']" />
-										<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshBlueprint['properties'][key]['y']" />
-										<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshBlueprint['properties'][key]['z']" />
-									</div>
-									<div ng-switch-default>
-										<input type="text" ng-model="meshBlueprint['properties'][key]['value']" class="input-sm form-control"/>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 					<!-- BUTTONS -->
 					<button class="btn btn-default" ng-click="create($index)">Create</button>
 				</div>
@@ -50,4 +30,5 @@
 		</div>
 
 	</div>
+
 </div>

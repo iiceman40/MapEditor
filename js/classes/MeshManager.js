@@ -30,6 +30,7 @@ MeshManager.prototype.create = function (id, options) {
 	var mesh = BABYLON.MeshBuilder['Create' + type](name, options, this.scene);
 	// keep track of meshes and add them to an array
 	this.meshes[name] = mesh;
+	this.selectedMesh = mesh;
 	return mesh;
 };
 
@@ -89,4 +90,8 @@ MeshManager.prototype.selectMesh = function(pickResult){
  */
 MeshManager.prototype.selectMeshById = function(id){
 	this.selectedMesh = this.meshes[id];
+};
+
+MeshManager.prototype.deselectMesh = function(){
+	this.selectedMesh = null;
 };

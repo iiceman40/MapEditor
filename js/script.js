@@ -26,8 +26,7 @@ $(document).ready(function () {
 	});
 
 	window.addEventListener("mouseup", function (event) {
-		var meshesScope = getScope('MeshesController');
-		var meshManager = meshesScope.meshManager;
+		var meshesScope = getScope('ListMeshesController');
 
 		if(event.target == canvas && Math.abs(tempMouseX - event.x) < 10 && Math.abs(tempMouseY - event.y) < 10) {
 			var pickResult = scene.pick(scene.pointerX, scene.pointerY);

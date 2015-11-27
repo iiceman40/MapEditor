@@ -1,11 +1,13 @@
 <h4>Meshes List</h4>
-<div ng-controller="MeshesController">
+<div ng-controller="ListMeshesController">
 
 	<div class="panel panel-default">
 		<div class="panel-body">
 			<ul ng-repeat="(key, value) in meshManager.meshes" class="list-unstyled">
 				<li>
-					<a href="#" ng-click="meshManager.selectMeshById(value.id)">{{value.id}}</a>
+					<a href="#" ng-click="meshManager.selectMeshById(value.id)" title="ID: {{value.id}}">
+						{{value.name}}
+					</a>
 				</li>
 				</ul>
 			</div>

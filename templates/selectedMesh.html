@@ -1,10 +1,13 @@
 <h4>Selected Mesh</h4>
-<div ng-controller="MeshesController">
+<div ng-controller="SelectedMeshController">
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
-				<span ng-if="meshManager.selectedMesh != null">{{meshManager.selectedMesh.id}}</span>
+				<span ng-if="meshManager.selectedMesh != null">
+					{{meshManager.selectedMesh.id}}
+					<a href="#" ng-click="meshManager.deselectMesh()" class="pull-right">&times;</a>
+				</span>
 				<span ng-if="meshManager.selectedMesh == null">No Mesh Selected</span>
 			</h4>
 		</div>

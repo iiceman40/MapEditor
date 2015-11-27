@@ -17,6 +17,10 @@
     }
   },
   "properties": {
+    "name": {
+      "type": "string",
+      "value": ""
+    },
     "visibility": {
       "type": "integer",
       "value": 1
