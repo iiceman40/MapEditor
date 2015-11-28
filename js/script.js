@@ -1,5 +1,6 @@
 var canvas, engine, scene;
 var meshManager;
+var app = angular.module('editorApplication', []);
 
 $(document).ready(function () {
 
@@ -29,9 +30,8 @@ $(document).ready(function () {
 		var meshesScope = getScope('ListMeshesController');
 
 		if(event.target == canvas && Math.abs(tempMouseX - event.x) < 10 && Math.abs(tempMouseY - event.y) < 10) {
-			var pickResult = scene.pick(scene.pointerX, scene.pointerY);
 			meshesScope.$apply(function () {
-				meshManager.selectMesh(pickResult);
+				meshManager.pickMesh(scene.pointerX, scene.pointerY);
 			});
 		}
 

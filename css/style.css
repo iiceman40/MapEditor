@@ -18,29 +18,39 @@ canvas {
 }
 
 /* line 20, ../sass/style.scss */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* line 29, ../sass/style.scss */
 .ui {
   position: absolute;
   z-index: 1;
 }
-/* line 24, ../sass/style.scss */
+/* line 33, ../sass/style.scss */
 .ui.left {
   left: 15px;
 }
-/* line 28, ../sass/style.scss */
+/* line 37, ../sass/style.scss */
 .ui.right {
   right: 15px;
 }
-/* line 32, ../sass/style.scss */
+/* line 41, ../sass/style.scss */
 .ui .panel {
   background: rgba(0, 0, 0, 0.8);
 }
 
-/* line 37, ../sass/style.scss */
+/* line 46, ../sass/style.scss */
 .form-horizontal .control-label {
   text-align: left;
 }
 
-/* line 41, ../sass/style.scss */
+/* line 50, ../sass/style.scss */
 .short {
   max-width: 50px;
 }

@@ -11,7 +11,6 @@
 
 	<script type="text/javascript" src="js/vendor/angularjs/angular.min.js"></script>
 	<script type="text/javascript" src="js/vendor/angularjs/angular-route.min.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
 
 	<script type="text/javascript" src="js/helperFunctions.js"></script>
 
@@ -20,8 +19,13 @@
 	<script type="text/javascript" src="js/vendor/babylonjs/babylon.max.js"></script>
 	<script type="text/javascript" src="js/createScene.js"></script>
 	<script type="text/javascript" src="js/script.js"></script>
+
+	<script type="text/javascript" src="js/controllers/mesh/createMeshController.js"></script>
+	<script type="text/javascript" src="js/controllers/mesh/listMeshesController.js"></script>
+	<script type="text/javascript" src="js/controllers/mesh/selectedMeshController.js"></script>
+	<script type="text/javascript" src="js/services/meshesService.js"></script>
 </head>
-<body>
+<body class="noselect">
 <div class="ui left form-horizontal">
 	<div class="meshes" ng-include="'templates/createMesh.html'"></div>
 </div>

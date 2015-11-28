@@ -3,10 +3,10 @@
 
 	<div class="panel panel-default">
 		<div class="panel-body">
-			<ul ng-repeat="(key, value) in meshManager.meshes" class="list-unstyled">
+			<ul ng-repeat="(key, mesh) in meshManager.meshes" class="list-unstyled">
 				<li>
-					<a href="#" ng-click="meshManager.selectMeshById(value.id)" title="ID: {{value.id}}">
-						{{value.name}}
+					<a href="#" ng-click="meshManager.selectMesh(mesh)" title="ID: {{mesh.id}}">
+						{{mesh.name}} <a href="#" class="glyphicon glyphicon-trash pull-right" ng-click="meshManager.disposeMesh(mesh)"></a>
 					</a>
 				</li>
 				</ul>

@@ -9,6 +9,9 @@ var MeshManager = function (scene) {
 	// init meshes by checking if there are already meshes in the scene
 	for(var i = 0; i < scene.meshes.length; i++){
 		var mesh  = scene.meshes[i];
+		while(this.meshes.hasOwnProperty(mesh.id)){
+			mesh.id = mesh.id + '_' + Math.floor(Math.random() * 10000000);
+		}
 		self.meshes[mesh.id] = mesh;
 	}
 
@@ -75,13 +78,18 @@ MeshManager.prototype.applyProperties = function (mesh, properties) {
 
 /**
  * select a mesh in the scene based on the given pickResult
- * @param pickResult
+ * @param pointerX
+ * @param pointerY
  */
-MeshManager.prototype.selectMesh = function(pickResult){
+MeshManager.prototype.pickMesh = function(pointerX, pointerY){
+	var pickResult = scene.pick(pointerX, pointerY);
 	if(pickResult.hit){
-		var pickedMesh = pickResult.pickedMesh;
-		this.selectedMesh = pickedMesh;
+		this.selectedMesh = pickResult.pickedMesh;
 	}
+};
+
+MeshManager.prototype.selectMesh = function(mesh){
+	this.selectedMesh = mesh;
 };
 
 /**
@@ -92,6 +100,24 @@ MeshManager.prototype.selectMeshById = function(id){
 	this.selectedMesh = this.meshes[id];
 };
 
+/**
+ * clears the currently selected mesh
+ */
 MeshManager.prototype.deselectMesh = function(){
 	this.selectedMesh = null;
+};
+
+/**
+ * disposes a mesh with a given id
+ * @param id
+ */
+MeshManager.prototype.disposeMeshWithId = function(id){
+	var mesh = this.meshes[id];
+	delete this.meshes[id];
+	mesh.dispose();
+};
+
+MeshManager.prototype.disposeMesh = function(mesh){
+	delete this.meshes[mesh.id];
+	mesh.dispose();
 };
