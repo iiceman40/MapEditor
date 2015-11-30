@@ -25,6 +25,9 @@
 								<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshManager.selectedMesh[key]['y']" />
 								<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshManager.selectedMesh[key]['z']" />
 							</div>
+							<div ng-switch-when="Material">
+								<select ng-options="material.name for material in materialManager.materials" ng-model="meshManager.selectedMesh[key]" class="input-sm form-control"></select>
+							</div>
 							<div ng-switch-default>
 								<!-- direct property access of currently selected mesh -->
 								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMesh[key]" />
@@ -33,6 +36,7 @@
 					</div>
 				</div>
 			</div>
+
 		</div>
 	</div>
 

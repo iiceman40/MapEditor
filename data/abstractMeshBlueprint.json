@@ -3,12 +3,12 @@
   "options": {
     "updateable": {
       "value": false,
-      "type": "boolean"
+      "type": "Boolean"
     },
     "sideOrientation": {
       "value": "BABYLON.Mesh.DEFAULTSIDE",
       "isConstant": true,
-      "type": "select",
+      "type": "Select",
       "availableOptions": [
         "BABYLON.Mesh.DEFAULTSIDE",
         "BABYLON.Mesh.BACKSIDE",
@@ -18,11 +18,11 @@
   },
   "properties": {
     "name": {
-      "type": "string",
+      "type": "String",
       "value": ""
     },
     "visibility": {
-      "type": "integer",
+      "type": "Integer",
       "value": 1
     },
     "position": {
@@ -42,6 +42,9 @@
       "x": 1,
       "y": 1,
       "z": 1
+    },
+    "material": {
+      "type": "Material"
     }
   }
 }

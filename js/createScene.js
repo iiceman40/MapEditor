@@ -10,12 +10,14 @@ var createScene = function () {
 	light.intensity = 0.7;
 
 	var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, scene);
-	sphere.position.y = 0.5;
+	sphere.position.y = 0.7;
 	sphere.position.x = -1;
 
-	sphere.visibility = 0.5;
+	sphere.visibility = 1;
 
 	var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+
+	//scene.debugLayer.show();
 
 	return scene;
 

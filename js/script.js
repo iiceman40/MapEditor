@@ -1,5 +1,5 @@
 var canvas, engine, scene;
-var meshManager;
+var meshManager, materialManager;
 var app = angular.module('editorApplication', []);
 
 $(document).ready(function () {
@@ -10,14 +10,12 @@ $(document).ready(function () {
 	scene = createScene();
 
 	meshManager = new MeshManager(scene);
+	materialManager = new MaterialManager(scene);
 
 	engine.runRenderLoop(function () {
 		scene.render();
 	});
 
-	window.addEventListener("resize", function () {
-		engine.resize();
-	});
 
 	// Events
 	var tempMouseX, tempMouseY;
@@ -27,7 +25,7 @@ $(document).ready(function () {
 	});
 
 	window.addEventListener("mouseup", function (event) {
-		var meshesScope = getScope('ListMeshesController');
+		var meshesScope = getScope('SelectedMeshController');
 
 		if(event.target == canvas && Math.abs(tempMouseX - event.x) < 10 && Math.abs(tempMouseY - event.y) < 10) {
 			meshesScope.$apply(function () {
@@ -35,6 +33,10 @@ $(document).ready(function () {
 			});
 		}
 
+	});
+
+	window.addEventListener("resize", function () {
+		engine.resize();
 	});
 
 });

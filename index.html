@@ -9,12 +9,13 @@
 	<script type="text/javascript" src="js/vendor/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
 
-	<script type="text/javascript" src="js/vendor/angularjs/angular.min.js"></script>
+	<script type="text/javascript" src="js/vendor/angularjs/angular.js"></script>
 	<script type="text/javascript" src="js/vendor/angularjs/angular-route.min.js"></script>
 
 	<script type="text/javascript" src="js/helperFunctions.js"></script>
 
 	<script type="text/javascript" src="js/classes/MeshManager.js"></script>
+	<script type="text/javascript" src="js/classes/MaterialManager.js"></script>
 
 	<script type="text/javascript" src="js/vendor/babylonjs/babylon.max.js"></script>
 	<script type="text/javascript" src="js/createScene.js"></script>
@@ -24,14 +25,18 @@
 	<script type="text/javascript" src="js/controllers/mesh/listMeshesController.js"></script>
 	<script type="text/javascript" src="js/controllers/mesh/selectedMeshController.js"></script>
 	<script type="text/javascript" src="js/services/meshesService.js"></script>
+
+	<script type="text/javascript" src="js/controllers/material/materialsController.js"></script>
+	<script type="text/javascript" src="js/services/materialsService.js"></script>
 </head>
 <body class="noselect">
 <div class="ui left form-horizontal">
-	<div class="meshes" ng-include="'templates/createMesh.html'"></div>
+	<div class="meshes" ng-include="'templates/mesh/createMesh.html'"></div>
+	<div class="meshes" ng-include="'templates/material/availableMaterials.html'"></div>
 </div>
 <div class="ui right form-horizontal">
-	<div class="selectedMesh" ng-include="'templates/selectedMesh.html'"></div>
-	<div class="meshesList" ng-include="'templates/listMeshes.html'"></div>
+	<div class="selectedMesh" ng-include="'templates/mesh/selectedMesh.html'"></div>
+	<div class="meshesList" ng-include="'templates/mesh/listMeshes.html'"></div>
 </div>
 <canvas id="renderCanvas"></canvas>
 </body>

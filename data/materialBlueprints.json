@@ -1,0 +1,13 @@
+[
+  {
+    "id": "flatRedMaterial",
+    "type": "Standard",
+    "properties": {
+      "diffuseColor": [
+        1,
+        0,
+        0
+      ]
+    }
+  }
+]
