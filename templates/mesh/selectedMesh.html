@@ -4,14 +4,14 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
-				<span ng-if="meshManager.selectedMesh != null">
-					{{meshManager.selectedMesh.id}}
-					<a href="#" ng-click="meshManager.deselectMesh()" class="pull-right">&times;</a>
+				<span ng-if="meshManager.selectedMeshes.length > 0">
+					{{meshManager.selectedMeshes[0].id}}
+					<a href="#" ng-click="meshManager.deselectMesh(meshManager.selectedMeshes[0])" class="pull-right">&times;</a>
 				</span>
-				<span ng-if="meshManager.selectedMesh == null">No Mesh Selected</span>
+				<span ng-if="meshManager.selectedMeshes.length == 0">No Mesh Selected</span>
 			</h4>
 		</div>
-		<div class="panel-body" ng-if="meshManager.selectedMesh">
+		<div class="panel-body" ng-if="meshManager.selectedMeshes[0]">
 			<div ng-repeat="(key, value) in abstractMeshBlueprint.properties">
 				<div class="form-group">
 					<label class="control-label col-sm-4">
@@ -21,16 +21,16 @@
 						<div ng-switch="value.type">
 							<div ng-switch-when="Vector3">
 								<!-- access to values in BABYLON.Vector3 type property -->
-								<input class="input-sm form-control short pull-left" placeholder="x" ng-model="meshManager.selectedMesh[key]['x']" />
-								<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshManager.selectedMesh[key]['y']" />
-								<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshManager.selectedMesh[key]['z']" />
+								<input class="input-sm form-control short pull-left" placeholder="x" ng-model="meshManager.selectedMeshes[0][key]['x']" />
+								<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshManager.selectedMeshes[0][key]['y']" />
+								<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshManager.selectedMeshes[0][key]['z']" />
 							</div>
 							<div ng-switch-when="Material">
-								<select ng-options="material.name for material in materialManager.materials" ng-model="meshManager.selectedMesh[key]" class="input-sm form-control"></select>
+								<select ng-options="material.name for material in materialManager.materials" ng-model="meshManager.selectedMeshes[0][key]" class="input-sm form-control"></select>
 							</div>
 							<div ng-switch-default>
 								<!-- direct property access of currently selected mesh -->
-								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMesh[key]" />
+								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMeshes[0][key]" />
 							</div>
 						</div>
 					</div>

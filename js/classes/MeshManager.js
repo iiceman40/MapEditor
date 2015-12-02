@@ -4,8 +4,14 @@ var MeshManager = function (scene) {
 	this.scene = scene;
 
 	this.meshes = {};
-	this.selectedMesh = null;
-	this.selectedMeshOutline = null;
+	this.selectedMeshes = [];
+	this.selectedMesh = function(){
+		if(this.selectedMeshes.length > 0){
+			return
+		} else {
+			return null;
+		}
+	};
 
 	// init meshes by checking if there are already meshes in the scene
 	for (var i = 0; i < scene.meshes.length; i++) {
@@ -106,11 +112,11 @@ MeshManager.prototype.selectMeshById = function (id) {
  * @param mesh
  */
 MeshManager.prototype.selectMesh = function (mesh) {
-	if (this.selectedMesh == mesh) {
+	if (this.selectedMeshes.indexOf(mesh) > -1) {
 		this.deselectMesh();
 	} else {
-		this.deselectMesh();
-		this.selectedMesh = mesh;
+		this.deselectAllMeshes();
+		this.selectedMeshes.push(mesh);
 		this.highlightMesh(mesh);
 	}
 };
@@ -118,9 +124,20 @@ MeshManager.prototype.selectMesh = function (mesh) {
 /**
  * clears the currently selected mesh
  */
-MeshManager.prototype.deselectMesh = function () {
-	this.clearHighlightedMesh();
-	this.selectedMesh = null;
+MeshManager.prototype.deselectMesh = function (mesh) {
+	this.clearHighlightedMesh(mesh);
+	var indexOfMesh = this.selectedMeshes.indexOf(mesh);
+	if (indexOfMesh > -1) {
+		this.selectedMeshes.splice(indexOfMesh, 1);
+	}
+};
+
+/**
+ * clears all currently selected meshes
+ */
+MeshManager.prototype.deselectAllMeshes = function () {
+	this.clearAllHighlightedMeshes();
+	this.selectedMeshes = [];
 };
 
 /**
@@ -160,15 +177,23 @@ MeshManager.prototype.highlightMesh = function (mesh) {
 	outline.parent = mesh;
 	outline.position = BABYLON.Vector3.Zero();
 
-	this.selectedMesh.customOutline = outline;
+	mesh.customOutline = outline;
 };
 
 /**
- * clears the currently selected mesh
+ * clears the currently selected mesh highlighting
  */
-MeshManager.prototype.clearHighlightedMesh = function () {
-	console.log('clearing highlighting', this.selectedMesh);
-	if (this.selectedMesh) {
-		this.selectedMesh.customOutline.dispose();
+MeshManager.prototype.clearHighlightedMesh = function (mesh) {
+	if (mesh && mesh.customOutline) {
+		mesh.customOutline.dispose();
+	}
+};
+
+/**
+ * clears the highlighting od all currently selected meshes
+ */
+MeshManager.prototype.clearAllHighlightedMeshes = function () {
+	for (var i = 0; i < this.selectedMeshes.length; i++) {
+		this.selectedMeshes[i].customOutline.dispose();
 	}
 };
