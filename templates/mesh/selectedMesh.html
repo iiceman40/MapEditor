@@ -28,6 +28,17 @@
 							<div ng-switch-when="Material">
 								<select ng-options="material.name for material in materialManager.materials" ng-model="meshManager.selectedMeshes[0][key]" class="input-sm form-control"></select>
 							</div>
+							<div ng-switch-when="Boolean" class="checkbox pull-right">
+								<!-- TODO DEBUG "receiveShaodws" - can't be activeated/deactivated from time to time - use interval to get values while testing changes -->
+								<input type="checkbox" ng-model="meshManager.selectedMeshes[0][key]" ng-true-value="true" ng-false-value="false">
+							</div>
+							<div ng-switch-when="Custom">
+								<div ng-switch="key">
+									<div ng-switch-when="castShadows*" class="checkbox pull-right">
+										<input type="checkbox" ng-model="lightingManager.idsForShadowGeneratorRenderList[meshManager.selectedMeshes[0].id]" />
+									</div>
+								</div>
+							</div>
 							<div ng-switch-default>
 								<!-- direct property access of currently selected mesh -->
 								<input class="input-sm form-control" placeholder="value" ng-model="meshManager.selectedMeshes[0][key]" />

@@ -6,16 +6,13 @@ var createScene = function () {
 	camera.setTarget(BABYLON.Vector3.Zero());
 	camera.attachControl(canvas, true);
 
-	var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
-	light.intensity = 0.7;
-
 	var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, scene);
-	sphere.position.y = 0.7;
 	sphere.position.x = -1;
 
-	sphere.visibility = 1;
-
 	var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+	ground.receiveShadows = true;
+	ground.position.y = -0.5;
+
 
 	//scene.debugLayer.show();
 

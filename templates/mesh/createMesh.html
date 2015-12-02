@@ -15,9 +15,7 @@
 					<h4>Options</h4>
 					<div ng-repeat="(key, value) in meshBlueprint.options">
 						<div class="form-group">
-							<label class="control-label col-sm-4">
-								{{key}}
-							</label>
+							<label class="control-label col-sm-4">{{key}}</label>
 							<div class="col-sm-8">
 								<input type="text" ng-model="meshBlueprint['options'][key]['value']" class="input-sm form-control"/>
 							</div>

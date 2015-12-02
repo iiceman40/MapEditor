@@ -168,11 +168,13 @@ MeshManager.prototype.highlightMesh = function (mesh) {
 
 	var redMaterial = new BABYLON.StandardMaterial('redMat', scene);
 	redMaterial.diffuseColor = new BABYLON.Color3(1, 0, 0);
+	redMaterial.emissiveColor = new BABYLON.Color3(1, 0, 0);
 
 	outline.flipFaces(true);
 
 	outline.scaling = new BABYLON.Vector3(1.05, 1.05, 1.05);
 	outline.material = redMaterial;
+	outline.visibility = mesh.visibility;
 
 	outline.parent = mesh;
 	outline.position = BABYLON.Vector3.Zero();

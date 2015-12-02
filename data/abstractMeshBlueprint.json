@@ -45,6 +45,14 @@
     },
     "material": {
       "type": "Material"
+    },
+    "receiveShadows": {
+      "value": false,
+      "type": "Boolean"
+    },
+    "castShadows*": {
+      "value": false,
+      "type": "Custom"
     }
   }
 }

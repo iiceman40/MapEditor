@@ -11,6 +11,7 @@ $(document).ready(function () {
 
 	meshManager = new MeshManager(scene);
 	materialManager = new MaterialManager(scene);
+	lightingManager = new LightingManager(scene);
 
 	engine.runRenderLoop(function () {
 		scene.render();
