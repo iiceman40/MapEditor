@@ -6,7 +6,12 @@
 			<h4 class="panel-title">
 				<span ng-if="meshManager.selectedMeshes.length > 0">
 					{{meshManager.selectedMeshes[0].id}}
-					<a href="#" ng-click="meshManager.deselectMesh(meshManager.selectedMeshes[0])" class="pull-right">&times;</a>
+					<a href="#" ng-click="meshManager.disposeMesh(meshManager.selectedMeshes[0])">
+						<span class="glyphicon glyphicon-trash text-danger"></span>
+					</a>
+					<a href="#" ng-click="meshManager.deselectMesh(meshManager.selectedMeshes[0])" class="pull-right">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
 				</span>
 				<span ng-if="meshManager.selectedMeshes.length == 0">No Mesh Selected</span>
 			</h4>

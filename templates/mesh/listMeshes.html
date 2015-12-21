@@ -6,7 +6,7 @@
 			<ul ng-repeat="(key, mesh) in meshManager.meshes" class="list-unstyled">
 				<li>
 					<a href="#" ng-click="meshManager.selectMesh(mesh)" title="ID: {{mesh.id}}">
-						{{mesh.name}} <a href="#" class="glyphicon glyphicon-trash pull-right" ng-click="meshManager.disposeMesh(mesh)"></a>
+						{{mesh.name}} &nbsp; <a href="#" class="glyphicon glyphicon-trash pull-right text-danger" ng-click="meshManager.disposeMesh(mesh)"></a>
 					</a>
 				</li>
 				</ul>

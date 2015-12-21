@@ -4,10 +4,11 @@ var MeshManager = function (scene) {
 	this.scene = scene;
 
 	this.meshes = {};
+	this.meshBlueprintToPlace = null;
 	this.selectedMeshes = [];
-	this.selectedMesh = function(){
-		if(this.selectedMeshes.length > 0){
-			return
+	this.selectedMesh = function () {
+		if (this.selectedMeshes.length > 0) {
+			return this.selectedMeshes[0];
 		} else {
 			return null;
 		}
@@ -26,30 +27,40 @@ var MeshManager = function (scene) {
 
 /**
  * creates a new mesh with a unique id
- * @param id
- * @param options
+ * @param meshBlueprint
  * @returns {*}
  */
-MeshManager.prototype.create = function (id, options) {
+MeshManager.prototype.create = function (meshBlueprint) {
+	// read options from blueprint
+	var options = {};
+	for (var option in meshBlueprint.options) {
+		// copy from the options blueprint to the mesh constructor
+		if (meshBlueprint.options.hasOwnProperty(option)) {
+			options[option] = meshBlueprint.options[option].value;
+		}
+	}
+
+	// generate type and name
+	var id = meshBlueprint.id;
 	var type = id.charAt(0).toUpperCase() + id.slice(1);
 	var name = '';
+
 	// create a unique id by checking if it already exists
 	while (!name || this.meshes.hasOwnProperty(name)) {
 		name = 'new_' + id + '_' + Math.floor(Math.random() * 10000000);
 	}
+
+	// create mesh
 	var mesh = BABYLON.MeshBuilder['Create' + type](name, options, this.scene);
+
+	// apply properties to the newly create mesh
+	this.applyProperties(mesh, meshBlueprint.properties);
+
 	// keep track of meshes and add them to an array
 	this.meshes[name] = mesh;
 	this.selectMesh(mesh);
+
 	return mesh;
-};
-
-/**
- * // TODO disposes the mesh manger
- * @param id
- */
-MeshManager.prototype.dispose = function (id) {
-
 };
 
 /**
@@ -64,7 +75,6 @@ MeshManager.prototype.applyProperties = function (mesh, properties) {
 			// copy from the options from teh abstract to the actual blueprint
 			if (mesh.hasOwnProperty(propertyName)) {
 				if (property.hasOwnProperty('type')) {
-					console.log(property.type);
 					switch (property.type) {
 						case 'Vector3':
 							// set property on mesh as a BABYLON.Vector3
@@ -73,7 +83,6 @@ MeshManager.prototype.applyProperties = function (mesh, properties) {
 						default:
 							// set property on mesh as a string or integer value
 							if (property.hasOwnProperty('value')) {
-								console.log('setting value ', property.value, ' for property ' + propertyName);
 								mesh[propertyName] = property.value;
 							}
 					}
@@ -91,12 +100,65 @@ MeshManager.prototype.applyProperties = function (mesh, properties) {
 MeshManager.prototype.pickMesh = function (pointerX, pointerY) {
 	var self = this;
 	var pickResult = scene.pick(pointerX, pointerY, function (mesh) {
-		var existsInMeshes = self.meshes.hasOwnProperty(mesh.id);
-		return existsInMeshes;
+		// only select meshes that exist in the editors meshes list
+		return self.meshes.hasOwnProperty(mesh.id);
 	});
 	if (pickResult.hit) {
-		this.selectMesh(pickResult.pickedMesh);
+		if (this.meshBlueprintToPlace) {
+			self.placeMesh(pickResult.pickedMesh, pickResult.pickedPoint);
+		} else {
+			this.selectMesh(pickResult.pickedMesh);
+		}
 	}
+};
+
+/**
+ * places the mesh set in meshBlueprintToPlace at a given position
+ * @param targetMesh
+ * @param targetPoint
+ */
+MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
+	var mesh = this.create(this.meshBlueprintToPlace);
+	var relativeClickPosition = targetPoint.subtract(targetMesh.position);
+
+	var maxValue = -Infinity;
+	var maxAxis = null;
+	var minValue = Infinity;
+	var minAxis = null;
+	for (axis in relativeClickPosition) {
+		if (relativeClickPosition.hasOwnProperty(axis)) {
+			if(relativeClickPosition[axis] > maxValue){
+				maxValue = relativeClickPosition[axis];
+				maxAxis = axis;
+			}
+			if(relativeClickPosition[axis] < minValue){
+				minValue = relativeClickPosition[axis];
+				minAxis = axis;
+			}
+		}
+	}
+
+	var boundingBoxMeshToPlace = mesh.getBoundingInfo().boundingBox;
+	var boundingBoxTargetMesh = targetMesh.getBoundingInfo().boundingBox;
+	var targetPosition = targetMesh.position.clone();
+
+	var axis = minAxis;
+	var deltaMeshToPlace = boundingBoxMeshToPlace.minimum[axis];
+	var deltaTargetMesh = boundingBoxTargetMesh.maximum[axis];
+
+	if(Math.abs(relativeClickPosition[maxAxis]) > Math.abs(relativeClickPosition[minAxis])) {
+		axis = maxAxis;
+		deltaMeshToPlace = boundingBoxMeshToPlace.maximum[axis];
+		deltaTargetMesh = boundingBoxTargetMesh.minimum[axis];
+	}
+	targetPosition[axis] += deltaTargetMesh * -1 + deltaMeshToPlace;
+
+	mesh.position = targetPosition;
+	this.selectMesh(mesh);
+};
+
+MeshManager.prototype.cancelPlacing = function(){
+	this.meshBlueprintToPlace = null;
 };
 
 /**
@@ -150,6 +212,9 @@ MeshManager.prototype.disposeMeshWithId = function (id) {
 };
 
 MeshManager.prototype.disposeMesh = function (mesh) {
+	if(mesh.customOutline){
+		mesh.customOutline.dispose();
+	}
 	if (mesh == this.selectedMesh) {
 		this.selectedMesh = null;
 	}
