@@ -1,3 +1,5 @@
+'use strict';
+
 var MeshManager = function (scene) {
 	var self = this;
 
@@ -92,14 +94,15 @@ MeshManager.prototype.applyProperties = function (mesh, properties) {
  * @param pointerX
  * @param pointerY
  */
-MeshManager.prototype.pickMesh = function (pointerX, pointerY) {
+MeshManager.prototype.pickMesh = function (pointerX, pointerY, event) {
 	var self = this;
 	var pickResult = scene.pick(pointerX, pointerY, function (mesh) {
 		// only select meshes that exist in the editors meshes list
 		return self.meshes.hasOwnProperty(mesh.id);
 	});
+
 	if (pickResult.hit) {
-		if (this.meshBlueprintToPlace) {
+		if (this.meshBlueprintToPlace && event.button == 2) {
 			self.placeMesh(pickResult.pickedMesh, pickResult.pickedPoint);
 		} else {
 			this.selectMesh(pickResult.pickedMesh);
@@ -113,6 +116,8 @@ MeshManager.prototype.pickMesh = function (pointerX, pointerY) {
  * @param targetPoint
  */
 MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
+	var gridSize = 1;
+
 	var mesh = this.create(this.meshBlueprintToPlace);
 	var relativeClickPosition = targetPoint.subtract(targetMesh.position);
 
@@ -120,6 +125,8 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 	var maxAxis = null;
 	var minValue = Infinity;
 	var minAxis = null;
+
+	// iterate over axes to determine the clicked side of the mesh
 	for (axis in relativeClickPosition) {
 		if (relativeClickPosition.hasOwnProperty(axis)) {
 			if(relativeClickPosition[axis] > maxValue){
@@ -147,9 +154,17 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 		deltaTargetMesh = boundingBoxTargetMesh.minimum[axis];
 	}
 	targetPosition[axis] += deltaTargetMesh * -1 + deltaMeshToPlace;
+	var targetPositionInGrid = targetPosition;
 
-	mesh.position = targetPosition;
-	this.selectMesh(mesh);
+	if(targetMesh.constructor.name == 'GroundMesh'){
+		targetPositionInGrid = new BABYLON.Vector3(
+			Math.round(targetPoint.x * gridSize) / gridSize,
+			Math.round(targetPosition.y * gridSize) / gridSize,
+			Math.round(targetPoint.z * gridSize) / gridSize
+		);
+	}
+
+	mesh.position = targetPositionInGrid;
 };
 
 MeshManager.prototype.cancelPlacing = function(){
@@ -198,7 +213,6 @@ MeshManager.prototype.initEditControl = function(mesh, scene){
  * @param mesh
  */
 MeshManager.prototype.selectMesh = function (mesh) {
-	console.log('selecting mesh ', mesh);
 	if (this.selectedMeshes.indexOf(mesh) > -1) {
 		this.deselectMesh(mesh);
 	} else {

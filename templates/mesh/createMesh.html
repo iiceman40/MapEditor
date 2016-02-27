@@ -6,7 +6,7 @@
 		<div class="panel panel-default" ng-repeat="meshBlueprint in meshBlueprints track by $index">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a href="#" ng-click="meshManager.cancelPlacing()" data-toggle="collapse" data-parent="#meshBlueprintsAccordion" data-target="#collapse-{{meshBlueprint.id}}">{{meshBlueprint.id}}</a>
+					<a href="#" ng-click="createAndPlace($index)" data-toggle="collapse" data-parent="#meshBlueprintsAccordion" data-target="#collapse-{{meshBlueprint.id}}">{{meshBlueprint.id}}</a>
 				</h4>
 			</div>
 			<div id="collapse-{{meshBlueprint.id}}" class="panel-collapse collapse">
@@ -21,15 +21,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- BUTTONS -->
-					<button class="btn btn-default" ng-click="create($index)">Create</button>
-					<button class="btn btn-default" ng-click="createAndPlace($index)">
-						<span ng-if="!meshManager.meshBlueprintToPlace">Activate Placing Mode</span>
-						<span ng-if="meshManager.meshBlueprintToPlace">Click in Editor...</span>
-					</button>
-					<button class="btn btn-info" ng-if="meshManager.meshBlueprintToPlace" ng-click="meshManager.cancelPlacing()" title="Deactivate Placing Mode">
-						<span class="glyphicon glyphicon-remove"></span>
-					</button>
+					(right click to place)
 				</div>
 			</div>
 		</div>

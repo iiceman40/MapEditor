@@ -11,7 +11,7 @@ var createScene = function () {
 	var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, scene);
 	sphere.position.x = -1;
 
-	var ground = BABYLON.Mesh.CreateGround("ground1", 6, 6, 2, scene);
+	var ground = BABYLON.Mesh.CreateGround("ground1", 16, 16, 2, scene);
 	ground.receiveShadows = true;
 	ground.position.y = -0.5;
 

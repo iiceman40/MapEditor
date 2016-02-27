@@ -4,6 +4,12 @@ var app = angular.module('editorApplication', []);
 
 $(document).ready(function () {
 
+	document.addEventListener("contextmenu", function(e){
+		e.preventDefault();
+	}, false);
+
+	window.onwheel = function(){ return false; };
+
 	canvas = document.getElementById("renderCanvas");
 	engine = new BABYLON.Engine(canvas, true);
 
@@ -31,7 +37,7 @@ $(document).ready(function () {
 
 		if(event.target == canvas && Math.abs(tempMouseX - event.x) < 10 && Math.abs(tempMouseY - event.y) < 10) {
 			meshesScope.$apply(function () {
-				meshManager.pickMesh(scene.pointerX, scene.pointerY);
+				meshManager.pickMesh(scene.pointerX, scene.pointerY, event);
 			});
 		}
 
