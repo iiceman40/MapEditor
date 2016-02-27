@@ -26,8 +26,13 @@ canvas {
 	user-select: none;
 }
 
+.inline {
+	display: inline-block;
+}
+
 .ui {
 	position: absolute;
+	top: 70px;
 	z-index: 1;
 
 	&.left {

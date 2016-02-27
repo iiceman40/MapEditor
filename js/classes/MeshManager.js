@@ -13,16 +13,11 @@ var MeshManager = function (scene) {
 			return null;
 		}
 	};
+	this.editControl = null;
 
-	// init meshes by checking if there are already meshes in the scene
-	for (var i = 0; i < scene.meshes.length; i++) {
-		var mesh = scene.meshes[i];
-		while (this.meshes.hasOwnProperty(mesh.id)) {
-			mesh.id = mesh.id + '_' + Math.floor(Math.random() * 10000000);
-		}
-		self.meshes[mesh.id] = mesh;
-	}
+	this.initMeshesInScene(this.scene);
 
+	//this.initMeshesInScene(scene);
 };
 
 /**
@@ -170,16 +165,47 @@ MeshManager.prototype.selectMeshById = function (id) {
 };
 
 /**
+ * activates the edit control to by triggering an init or switching to it
+ * @param mesh
+ * @param scene
+ */
+MeshManager.prototype.activateEditControl = function(mesh, scene){
+	//mesh.rotationQuaternion = null;
+	if(!this.editControl) {
+		this.initEditControl(mesh, scene);
+	} else {
+		this.editControl.switchTo(mesh);
+	}
+};
+
+/**
+ * initializes the edit control tool
+ * @param mesh
+ * @param scene
+ */
+MeshManager.prototype.initEditControl = function(mesh, scene){
+	var EditControl = org.ssatguru.babylonjs.component.EditControl;
+	this.editControl = new EditControl(mesh, scene.activeCamera, canvas, 0.5);
+	this.editControl.setTransSnapValue(0.1);
+	this.editControl.setTransSnap(true);
+	this.editControl.enableTranslation();
+	//this.editControl.enableRotation();
+	//this.editControl.enableScaling();
+};
+
+/**
  * selects (or deselects if already selected) a given mesh
  * @param mesh
  */
 MeshManager.prototype.selectMesh = function (mesh) {
+	console.log('selecting mesh ', mesh);
 	if (this.selectedMeshes.indexOf(mesh) > -1) {
-		this.deselectMesh();
+		this.deselectMesh(mesh);
 	} else {
 		this.deselectAllMeshes();
 		this.selectedMeshes.push(mesh);
 		this.highlightMesh(mesh);
+		this.activateEditControl(mesh, scene);
 	}
 };
 
@@ -187,6 +213,10 @@ MeshManager.prototype.selectMesh = function (mesh) {
  * clears the currently selected mesh
  */
 MeshManager.prototype.deselectMesh = function (mesh) {
+	if(this.editControl) {
+		this.editControl.detach();
+		this.editControl = null;
+	}
 	this.clearHighlightedMesh(mesh);
 	var indexOfMesh = this.selectedMeshes.indexOf(mesh);
 	if (indexOfMesh > -1) {
@@ -198,6 +228,10 @@ MeshManager.prototype.deselectMesh = function (mesh) {
  * clears all currently selected meshes
  */
 MeshManager.prototype.deselectAllMeshes = function () {
+	if(this.editControl) {
+		this.editControl.detach();
+		this.editControl = null;
+	}
 	this.clearAllHighlightedMeshes();
 	this.selectedMeshes = [];
 };
@@ -243,6 +277,7 @@ MeshManager.prototype.highlightMesh = function (mesh) {
 
 	outline.parent = mesh;
 	outline.position = BABYLON.Vector3.Zero();
+	outline.rotation = BABYLON.Vector3.Zero();
 
 	mesh.customOutline = outline;
 };
@@ -262,5 +297,33 @@ MeshManager.prototype.clearHighlightedMesh = function (mesh) {
 MeshManager.prototype.clearAllHighlightedMeshes = function () {
 	for (var i = 0; i < this.selectedMeshes.length; i++) {
 		this.selectedMeshes[i].customOutline.dispose();
+	}
+};
+
+/**
+ * resets the mesh manager
+ */
+MeshManager.prototype.reset = function(scene){
+	this.scene = scene;
+
+	this.meshes = {};
+	this.meshBlueprintToPlace = null;
+	this.selectedMeshes = [];
+	this.editControl = null;
+
+	this.initMeshesInScene(scene);
+};
+
+/**
+ * init meshes by checking if there are already meshes in the scene
+ */
+MeshManager.prototype.initMeshesInScene = function(){
+	console.log(scene.meshes);
+	for (var i = 0; i < this.scene.meshes.length; i++) {
+		var mesh = this.scene.meshes[i];
+		while (this.meshes.hasOwnProperty(mesh.id)) {
+			mesh.id = mesh.id + '_' + Math.floor(Math.random() * 10000000);
+		}
+		this.meshes[mesh.id] = mesh;
 	}
 };

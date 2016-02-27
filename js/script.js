@@ -9,6 +9,7 @@ $(document).ready(function () {
 
 	scene = createScene();
 
+	sceneManager = new SceneManager(scene);
 	meshManager = new MeshManager(scene);
 	materialManager = new MaterialManager(scene);
 	lightingManager = new LightingManager(scene);

@@ -30,6 +30,30 @@
 								<input class="input-sm form-control short pull-left" placeholder="y" ng-model="meshManager.selectedMeshes[0][key]['y']" />
 								<input class="input-sm form-control short pull-left" placeholder="z" ng-model="meshManager.selectedMeshes[0][key]['z']" />
 							</div>
+							<div ng-switch-when="RangeForVector3">
+								<!-- access to values in BABYLON.Vector3 type property -->
+								<label class="inline list-inline">x-axis</label>
+								<input class="input-sm form-control short inline" placeholder="x" ng-model="meshManager.selectedMeshes[0][key]['x']" />
+								<input type="range"
+								       min="{{value.min}}" max="{{value.max}}" step="{{value.step}}"
+								       class="input-sm" placeholder="x"
+								       ng-model="meshManager.selectedMeshes[0][key]['x']"
+								/>
+								<label class="inline">y-axis </label>
+								<input class="input-sm form-control short inline" placeholder="y" ng-model="meshManager.selectedMeshes[0][key]['y']" />
+								<input type="range"
+								       min="{{value.min}}" max="{{value.max}}" step="{{value.step}}"
+								       class="input-sm" placeholder="y"
+								       ng-model="meshManager.selectedMeshes[0][key]['y']"
+								/>
+								<label class="inline">z-axis </label>
+								<input class="input-sm form-control short inline" placeholder="z" ng-model="meshManager.selectedMeshes[0][key]['z']" />
+								<input type="range"
+								       min="{{value.min}}" max="{{value.max}}" step="{{value.step}}"
+								       class="input-sm" placeholder="y"
+								       ng-model="meshManager.selectedMeshes[0][key]['z']"
+								/>
+							</div>
 							<div ng-switch-when="Material">
 								<select ng-options="material.name for material in materialManager.materials" ng-model="meshManager.selectedMeshes[0][key]" class="input-sm form-control"></select>
 							</div>
