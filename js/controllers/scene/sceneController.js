@@ -14,4 +14,9 @@ app.controller('SceneController', function ($scope) {
 		$scope.sceneManager.loadScene();
 	};
 
+	$scope.newScene = function(){
+		console.log('SceneController - creating new scene');
+		$scope.sceneManager.newScene();
+	};
+
 });

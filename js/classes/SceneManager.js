@@ -36,3 +36,27 @@ SceneManager.prototype.loadScene = function () {
 		this.meshManager.reset(self.scene);
 	});
 };
+
+/**
+ * TODO FIXME
+ */
+SceneManager.prototype.newScene = function(){
+	//console.log(this.scene.activeCamera);
+	//this.scene.activeCamera.detachControl(canvas);
+	engine.stopRenderLoop();
+	scene.dispose();
+
+	scene = createScene();
+
+	sceneManager = new SceneManager(scene);
+	meshManager = new MeshManager(scene);
+	textureManager = new TextureManager(scene);
+	materialManager = new MaterialManager(scene);
+	lightingManager = new LightingManager(scene);
+
+	engine.runRenderLoop(function () {
+		scene.render();
+	});
+
+	this.scene = scene;
+};

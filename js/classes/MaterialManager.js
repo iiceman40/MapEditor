@@ -5,11 +5,11 @@ var MaterialManager = function (scene) {
 
 MaterialManager.prototype.initMaterials = function (materialsData) {
 	for (var i = 0; i < materialsData.length; i++) {
-		this.addMaterial(materialsData[i]);
+		this.addTexture(materialsData[i]);
 	}
 };
 
-MaterialManager.prototype.addMaterial = function (data) {
+MaterialManager.prototype.addTexture = function (data) {
 	var material = new BABYLON.StandardMaterial(data.id, this.scene);
 
 	if (data.hasOwnProperty('properties')){
@@ -17,6 +17,10 @@ MaterialManager.prototype.addMaterial = function (data) {
 		if (properties.hasOwnProperty('diffuseColor') && properties.diffuseColor) {
 			material.diffuseColor = new BABYLON.Color3(properties.diffuseColor[0], properties.diffuseColor[1], properties.diffuseColor[2]);
 		}
+	}
+
+	if (data.hasOwnProperty('name') && data.name) {
+		material.name = data.name;
 	}
 
 	this.materials[data.id] = material;

@@ -16,6 +16,7 @@
 
 	<script type="text/javascript" src="js/classes/SceneManager.js"></script>
 	<script type="text/javascript" src="js/classes/MeshManager.js"></script>
+	<script type="text/javascript" src="js/classes/TextureManager.js"></script>
 	<script type="text/javascript" src="js/classes/MaterialManager.js"></script>
 	<script type="text/javascript" src="js/classes/LightingManager.js"></script>
 
@@ -29,16 +30,18 @@
 	<script type="text/javascript" src="js/controllers/mesh/createMeshController.js"></script>
 	<script type="text/javascript" src="js/controllers/mesh/listMeshesController.js"></script>
 	<script type="text/javascript" src="js/controllers/mesh/selectedMeshController.js"></script>
+
 	<script type="text/javascript" src="js/services/meshesService.js"></script>
 
+	<script type="text/javascript" src="js/controllers/texture/texturesController.js"></script>
 	<script type="text/javascript" src="js/controllers/material/materialsController.js"></script>
 	<script type="text/javascript" src="js/services/materialsService.js"></script>
+	<script type="text/javascript" src="js/services/texturesService.js"></script>
 </head>
 <body class="noselect">
 <div class="menu" ng-include="'templates/menu/menu.html'"></div>
 <div class="ui left form-horizontal">
 	<div class="meshes" ng-include="'templates/mesh/createMesh.html'"></div>
-	<div class="meshes" ng-include="'templates/material/availableMaterials.html'"></div>
 </div>
 <div class="ui right form-horizontal">
 	<div class="selectedMesh" ng-include="'templates/mesh/selectedMesh.html'"></div>

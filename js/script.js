@@ -4,11 +4,18 @@ var app = angular.module('editorApplication', []);
 
 $(document).ready(function () {
 
+	// prevent context menu
 	document.addEventListener("contextmenu", function(e){
 		e.preventDefault();
 	}, false);
 
+	// prevent mouse wheel scroll
 	window.onwheel = function(){ return false; };
+
+	// extend string class to capitalize first letter
+	String.prototype.capitalizeFirstLetter = function() {
+		return this.charAt(0).toUpperCase() + this.slice(1);
+	};
 
 	canvas = document.getElementById("renderCanvas");
 	engine = new BABYLON.Engine(canvas, true);
@@ -17,6 +24,7 @@ $(document).ready(function () {
 
 	sceneManager = new SceneManager(scene);
 	meshManager = new MeshManager(scene);
+	textureManager = new TextureManager(scene);
 	materialManager = new MaterialManager(scene);
 	lightingManager = new LightingManager(scene);
 

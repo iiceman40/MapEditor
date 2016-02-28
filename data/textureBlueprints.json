@@ -1,0 +1,14 @@
+[
+  {
+    "id": "blueTiles",
+    "url": "assets\\textures\\baseTile.png"
+  },
+  {
+    "id": "redTiles",
+    "url": "assets\\textures\\baseTile_red.png"
+  },
+  {
+    "id": "cobble",
+    "url": "assets\\textures\\cobble.jpg"
+  }
+]

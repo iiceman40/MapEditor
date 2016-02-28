@@ -6,7 +6,19 @@
 		<div class="panel panel-default" ng-repeat="meshBlueprint in meshBlueprints track by $index">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<a href="#" ng-click="createAndPlace($index)" data-toggle="collapse" data-parent="#meshBlueprintsAccordion" data-target="#collapse-{{meshBlueprint.id}}">{{meshBlueprint.id}}</a>
+					<a href="#" ng-click="createAndPlace($index)"
+					   data-toggle="collapse"
+					   data-parent="#meshBlueprintsAccordion"
+					   data-target="#collapse-{{meshBlueprint.id}}"
+					>
+						{{meshBlueprint.id.capitalizeFirstLetter()}}
+						<span ng-if="blueprintIsSelected($index)" class="pull-right">
+							<span class="glyphicon glyphicon-check"></span>
+						</span>
+						<span ng-if="!blueprintIsSelected($index)" class="pull-right">
+							<span class="glyphicon glyphicon-unchecked"></span>
+						</span>
+					</a>
 				</h4>
 			</div>
 			<div id="collapse-{{meshBlueprint.id}}" class="panel-collapse collapse">

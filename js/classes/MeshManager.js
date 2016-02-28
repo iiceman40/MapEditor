@@ -1,6 +1,7 @@
 'use strict';
 
 var MeshManager = function (scene) {
+	console.log('initiating Meshmanager');
 	var self = this;
 
 	this.scene = scene;
