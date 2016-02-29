@@ -6,6 +6,8 @@ var createScene = function () {
 	camera.setTarget(BABYLON.Vector3.Zero());
 	camera.attachControl(canvas, true);
 
+	camera.wheelPrecision = 30;
+
 	scene.activeCameras.push(camera);
 
 	var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, scene);
