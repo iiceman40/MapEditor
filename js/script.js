@@ -1,5 +1,5 @@
 var canvas, engine, scene;
-var meshManager, materialManager;
+var assetsManager, meshManager, materialManager, textureManager, lightingManager;
 var app = angular.module('editorApplication', []);
 
 $(document).ready(function () {
@@ -22,9 +22,12 @@ $(document).ready(function () {
 
 	scene = createScene();
 
+	assetsManager = new BABYLON.AssetsManager(scene);
+	assetsManager.useDefaultLoadingScreen = false;
+
 	sceneManager = new SceneManager(scene);
 	meshManager = new MeshManager(scene);
-	textureManager = new TextureManager(scene);
+	textureManager = new TextureManager(assetsManager, scene);
 	materialManager = new MaterialManager(textureManager, scene);
 	lightingManager = new LightingManager(scene);
 

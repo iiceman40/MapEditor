@@ -26,5 +26,14 @@
     "properties": {
       "diffuseTexture": "redTiles"
     }
+  },
+  {
+    "id": "cobbleMaterial",
+    "name": "Cobble",
+    "type": "Standard",
+    "properties": {
+      "diffuseTexture": "cobble",
+      "bumpTexture": "cobbleBump"
+    }
   }
 ]

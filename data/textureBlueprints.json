@@ -10,5 +10,9 @@
   {
     "id": "cobble",
     "url": "assets\\textures\\cobble.jpg"
+  },
+  {
+    "id": "cobbleBump",
+    "url": "assets\\textures\\cobble_normal5.png"
   }
 ]
