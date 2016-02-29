@@ -11,7 +11,16 @@ var createScene = function () {
 	var sphere = BABYLON.Mesh.CreateSphere("sphere1", 16, 1, scene);
 	sphere.position.x = -1;
 
-	var ground = BABYLON.Mesh.CreateGround("ground1", 16, 16, 2, scene);
+	//var ground = BABYLON.Mesh.CreateGround("ground1", 16, 16, 2, scene);
+	var precision = {
+		"w" : 1,
+		"h" : 1
+	};
+	var subdivisions = {
+		'h' : 16,
+		'w' : 16
+	};
+	var ground = BABYLON.Mesh.CreateTiledGround("Tiled Ground", -8, -8, 8, 8, subdivisions, precision, scene, false);
 	ground.receiveShadows = true;
 	ground.position.y = -0.5;
 

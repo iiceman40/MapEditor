@@ -1,15 +1,16 @@
 var MaterialManager = function (scene) {
 	this.scene = scene;
+	this.materialsData = null;
 	this.materials = {}
 };
 
 MaterialManager.prototype.initMaterials = function (materialsData) {
 	for (var i = 0; i < materialsData.length; i++) {
-		this.addTexture(materialsData[i]);
+		this.addMaterial(materialsData[i]);
 	}
 };
 
-MaterialManager.prototype.addTexture = function (data) {
+MaterialManager.prototype.addMaterial = function (data) {
 	var material = new BABYLON.StandardMaterial(data.id, this.scene);
 
 	if (data.hasOwnProperty('properties')){
@@ -26,4 +27,12 @@ MaterialManager.prototype.addTexture = function (data) {
 	this.materials[data.id] = material;
 
 	return material;
+};
+
+MaterialManager.prototype.reset = function(scene){
+	this.scene = scene;
+	this.materials = {};
+	if(this.materialsData) {
+		this.initMaterials(this.materialsData);
+	}
 };

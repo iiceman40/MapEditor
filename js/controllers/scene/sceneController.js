@@ -1,8 +1,12 @@
 app.controller('SceneController', function ($scope) {
 	$scope.sceneManager = sceneManager;
 	$scope.meshManager = meshManager;
+	$scope.materialManager = materialManager;
+	$scope.lightManager = lightingManager;
 
 	$scope.sceneManager.setMeshManger($scope.meshManager);
+	$scope.sceneManager.setMaterialManger($scope.materialManager);
+	$scope.sceneManager.setLightManger($scope.lightManager);
 
 	$scope.saveScene = function(){
 		console.log('SceneController - saving scene');

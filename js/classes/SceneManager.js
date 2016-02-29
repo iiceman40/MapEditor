@@ -3,18 +3,30 @@ var SceneManager = function (scene) {
 
 	this.scene = scene;
 	this.meshManager = null;
+	this.materialManager = null;
+	this.lightManager = null;
 };
 
 SceneManager.prototype.setMeshManger = function(meshManager){
 	this.meshManager = meshManager;
 };
 
+SceneManager.prototype.setMaterialManger = function(materialManager){
+	this.materialManager = materialManager;
+};
+
+SceneManager.prototype.setLightManger = function(lightManager){
+	this.lightManager = lightManager;
+};
+
 SceneManager.prototype.saveScene = function () {
 	console.log('SceneMananger - saving scene');
+	this.scene = scene;
 	this.meshManager.deselectAllMeshes();
-	var serializedScene = BABYLON.SceneSerializer.Serialize(scene);
+
+	var serializedScene = BABYLON.SceneSerializer.Serialize(this.scene);
 	var strScene = JSON.stringify(serializedScene);
-	console.log(scene.cameras, serializedScene.cameras);
+	console.log('comparing scene and serialized version of the scene: ', this.scene, serializedScene);
 
 	if(typeof(Storage) !== "undefined") {
 		localStorage.setItem("scene", strScene);
@@ -28,35 +40,38 @@ SceneManager.prototype.loadScene = function () {
 	BABYLON.SceneLoader.Load("", "data:"+strScene, engine, function (newScene) {
 		self.scene.dispose();
 		self.scene = newScene;
-		if(self.scene.cameras) {
+
+		self.meshManager.reset(self.scene);
+		self.materialManager.reset(self.scene);
+
+		console.log(newScene);
+
+		if(self.scene.cameras.length) {
 			self.scene.activeCameras.push(self.scene.cameras[0]);
-			self.scene.activeCamera.attachControl(canvas, true);
-			console.log(self.scene.activeCamera.position);
+		} else {
+			console.log('Warning: no camera found, creating a new camera');
+			var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI/2, Math.PI/3, 10, new BABYLON.Vector3(0, 0, 0), self.scene);
+			camera.setTarget(BABYLON.Vector3.Zero());
+			self.scene.activeCameras.push(camera);
 		}
-		this.meshManager.reset(self.scene);
+		self.scene.activeCamera.attachControl(canvas, true);
 	});
 };
 
-/**
- * TODO FIXME
- */
 SceneManager.prototype.newScene = function(){
-	//console.log(this.scene.activeCamera);
-	//this.scene.activeCamera.detachControl(canvas);
 	engine.stopRenderLoop();
-	scene.dispose();
+	this.scene.dispose();
 
-	scene = createScene();
+	this.scene = createScene();
 
-	sceneManager = new SceneManager(scene);
-	meshManager = new MeshManager(scene);
-	textureManager = new TextureManager(scene);
-	materialManager = new MaterialManager(scene);
-	lightingManager = new LightingManager(scene);
+	this.meshManager.reset(this.scene);
+	this.materialManager.reset(this.scene);
+	this.lightManager.reset(this.scene);
+
 
 	engine.runRenderLoop(function () {
-		scene.render();
+		self.scene.render();
 	});
 
-	this.scene = scene;
+	scene = this.scene;
 };

@@ -157,7 +157,9 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 	targetPosition[axis] += deltaTargetMesh * -1 + deltaMeshToPlace;
 	var targetPositionInGrid = targetPosition;
 
-	if(targetMesh.constructor.name == 'GroundMesh'){
+	// check if target mesh is some kind of flat ground like tiledGround, ground or plane
+	var targetMeshBoundingBox = targetMesh.getBoundingInfo().boundingBox;
+	if(targetMeshBoundingBox.maximum.y == targetMeshBoundingBox.minimum.y){
 		targetPositionInGrid = new BABYLON.Vector3(
 			Math.round(targetPoint.x * gridSize) / gridSize,
 			Math.round(targetPosition.y * gridSize) / gridSize,
@@ -269,6 +271,11 @@ MeshManager.prototype.disposeMesh = function (mesh) {
 	}
 	delete this.meshes[mesh.id];
 	mesh.dispose();
+
+	if(this.editControl) {
+		this.editControl.detach();
+		this.editControl = null;
+	}
 };
 
 /**
@@ -324,6 +331,9 @@ MeshManager.prototype.reset = function(scene){
 	this.meshes = {};
 	this.meshBlueprintToPlace = null;
 	this.selectedMeshes = [];
+	if(this.editControl) {
+		this.editControl.detach();
+	}
 	this.editControl = null;
 
 	this.initMeshesInScene(scene);

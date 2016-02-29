@@ -6,6 +6,7 @@ app.controller('MaterialsController', function ($scope, MaterialsService) {
 
 	MaterialsService.getMaterialBlueprints().then(function (data) {
 		$scope.materialBlueprints = data;
+		$scope.materialManager.materialsData = data;
 		$scope.materialManager.initMaterials(data);
 	});
 
