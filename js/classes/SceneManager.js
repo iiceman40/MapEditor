@@ -4,6 +4,7 @@ var SceneManager = function (scene) {
 	this.scene = scene;
 	this.meshManager = null;
 	this.materialManager = null;
+	this.textureManager = null;
 	this.lightManager = null;
 };
 
@@ -13,6 +14,10 @@ SceneManager.prototype.setMeshManger = function(meshManager){
 
 SceneManager.prototype.setMaterialManger = function(materialManager){
 	this.materialManager = materialManager;
+};
+
+SceneManager.prototype.setTextureManager = function(textureManager){
+	this.textureManager = textureManager;
 };
 
 SceneManager.prototype.setLightManger = function(lightManager){
@@ -41,8 +46,9 @@ SceneManager.prototype.loadScene = function () {
 		self.scene.dispose();
 		self.scene = newScene;
 
+		self.textureManager.reset(self.scene);
 		self.meshManager.reset(self.scene);
-		self.materialManager.reset(self.scene);
+		self.materialManager.reset(this.textureManager, self.scene);
 
 		console.log(newScene);
 
@@ -64,8 +70,9 @@ SceneManager.prototype.newScene = function(){
 
 	this.scene = createScene();
 
+	this.textureManager.reset(self.scene);
 	this.meshManager.reset(this.scene);
-	this.materialManager.reset(this.scene);
+	this.materialManager.reset(this.textureManager, self.scene);
 	this.lightManager.reset(this.scene);
 
 

@@ -25,7 +25,7 @@ $(document).ready(function () {
 	sceneManager = new SceneManager(scene);
 	meshManager = new MeshManager(scene);
 	textureManager = new TextureManager(scene);
-	materialManager = new MaterialManager(scene);
+	materialManager = new MaterialManager(textureManager, scene);
 	lightingManager = new LightingManager(scene);
 
 	engine.runRenderLoop(function () {

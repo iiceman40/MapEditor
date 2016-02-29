@@ -10,5 +10,21 @@
         0
       ]
     }
+  },
+  {
+    "id": "blueTiledMaterial",
+    "name": "Blue Tiled",
+    "type": "Standard",
+    "properties": {
+      "diffuseTexture": "blueTiles"
+    }
+  },
+  {
+    "id": "redTiledMaterial",
+    "name": "Red Tiled",
+    "type": "Standard",
+    "properties": {
+      "diffuseTexture": "redTiles"
+    }
   }
 ]
