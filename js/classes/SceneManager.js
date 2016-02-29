@@ -1,3 +1,5 @@
+'use strict';
+
 var SceneManager = function (scene) {
 	var self = this;
 
@@ -8,19 +10,19 @@ var SceneManager = function (scene) {
 	this.lightManager = null;
 };
 
-SceneManager.prototype.setMeshManger = function(meshManager){
+SceneManager.prototype.setMeshManger = function (meshManager) {
 	this.meshManager = meshManager;
 };
 
-SceneManager.prototype.setMaterialManger = function(materialManager){
+SceneManager.prototype.setMaterialManger = function (materialManager) {
 	this.materialManager = materialManager;
 };
 
-SceneManager.prototype.setTextureManager = function(textureManager){
+SceneManager.prototype.setTextureManager = function (textureManager) {
 	this.textureManager = textureManager;
 };
 
-SceneManager.prototype.setLightManger = function(lightManager){
+SceneManager.prototype.setLightManger = function (lightManager) {
 	this.lightManager = lightManager;
 };
 
@@ -33,7 +35,7 @@ SceneManager.prototype.saveScene = function () {
 	var strScene = JSON.stringify(serializedScene);
 	console.log('comparing scene and serialized version of the scene: ', this.scene, serializedScene);
 
-	if(typeof(Storage) !== "undefined") {
+	if (typeof(Storage) !== "undefined") {
 		localStorage.setItem("scene", strScene);
 	} else {
 		// Sorry! No Web Storage support..
@@ -42,29 +44,32 @@ SceneManager.prototype.saveScene = function () {
 
 SceneManager.prototype.loadScene = function () {
 	var strScene = localStorage.getItem("scene");
-	BABYLON.SceneLoader.Load("", "data:"+strScene, engine, function (newScene) {
+	BABYLON.SceneLoader.Load("", "data:" + strScene, engine, function (newScene) {
 		self.scene.dispose();
 		self.scene = newScene;
 
 		self.textureManager.reset(self.scene);
 		self.meshManager.reset(self.scene);
-		self.materialManager.reset(this.textureManager, self.scene);
+		self.materialManager.reset(self.textureManager, self.scene);
 
 		console.log(newScene);
 
-		if(self.scene.cameras.length) {
+		if (self.scene.cameras.length) {
 			self.scene.activeCameras.push(self.scene.cameras[0]);
 		} else {
 			console.log('Warning: no camera found, creating a new camera');
-			var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI/2, Math.PI/3, 10, new BABYLON.Vector3(0, 0, 0), self.scene);
+			var camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 3, 10, new BABYLON.Vector3(0, 0, 0), self.scene);
 			camera.setTarget(BABYLON.Vector3.Zero());
 			self.scene.activeCameras.push(camera);
 		}
+		self.scene.activeCamera.wheelPrecision = 30;
+		self.scene.activeCamera.pinchPrecision = 20;
+		self.scene.activeCamera.panningSensibility = 200;
 		self.scene.activeCamera.attachControl(canvas, true);
 	});
 };
 
-SceneManager.prototype.newScene = function(){
+SceneManager.prototype.newScene = function () {
 	engine.stopRenderLoop();
 	this.scene.dispose();
 

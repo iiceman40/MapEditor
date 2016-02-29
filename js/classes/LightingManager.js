@@ -1,3 +1,5 @@
+'use strict';
+
 var LightingManager = function (scene) {
 	var self = this;
 
@@ -9,7 +11,7 @@ var LightingManager = function (scene) {
 	this.init();
 };
 
-LightingManager.prototype.init = function(){
+LightingManager.prototype.init = function () {
 	this.light = new BABYLON.DirectionalLight("light1", new BABYLON.Vector3(-0.5, -1, -0.5), this.scene);
 	this.light.intensity = 0.7;
 
@@ -17,7 +19,7 @@ LightingManager.prototype.init = function(){
 	this.shadowGenerator.useVarianceShadowMap = true;
 };
 
-LightingManager.prototype.reset = function(scene){
+LightingManager.prototype.reset = function (scene) {
 	this.scene = scene;
 	this.init();
 };

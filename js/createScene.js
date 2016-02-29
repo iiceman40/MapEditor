@@ -7,6 +7,8 @@ var createScene = function () {
 	camera.attachControl(canvas, true);
 
 	camera.wheelPrecision = 30;
+	camera.pinchPrecision = 20;
+	camera.panningSensibility = 200;
 
 	scene.activeCameras.push(camera);
 

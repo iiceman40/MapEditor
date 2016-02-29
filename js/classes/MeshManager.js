@@ -34,6 +34,13 @@ MeshManager.prototype.create = function (meshBlueprint) {
 	for (var option in meshBlueprint.options) {
 		// copy from the options blueprint to the mesh constructor
 		if (meshBlueprint.options.hasOwnProperty(option)) {
+			switch (meshBlueprint.options[option].type) {
+				case 'number':
+					if (meshBlueprint.options[option].value) {
+						meshBlueprint.options[option].value = parseFloat(meshBlueprint.options[option].value);
+					}
+					break;
+			}
 			options[option] = meshBlueprint.options[option].value;
 		}
 	}
@@ -116,7 +123,7 @@ MeshManager.prototype.pickMesh = function (pointerX, pointerY, event) {
  * @param targetMesh
  * @param targetPoint
  */
-MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
+MeshManager.prototype.placeMesh = function (targetMesh, targetPoint) {
 	var gridSize = 1;
 
 	var mesh = this.create(this.meshBlueprintToPlace);
@@ -130,11 +137,11 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 	// iterate over axes to determine the clicked side of the mesh
 	for (axis in relativeClickPosition) {
 		if (relativeClickPosition.hasOwnProperty(axis)) {
-			if(relativeClickPosition[axis] > maxValue){
+			if (relativeClickPosition[axis] > maxValue) {
 				maxValue = relativeClickPosition[axis];
 				maxAxis = axis;
 			}
-			if(relativeClickPosition[axis] < minValue){
+			if (relativeClickPosition[axis] < minValue) {
 				minValue = relativeClickPosition[axis];
 				minAxis = axis;
 			}
@@ -149,7 +156,7 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 	var deltaMeshToPlace = boundingBoxMeshToPlace.minimum[axis];
 	var deltaTargetMesh = boundingBoxTargetMesh.maximum[axis];
 
-	if(Math.abs(relativeClickPosition[maxAxis]) > Math.abs(relativeClickPosition[minAxis])) {
+	if (Math.abs(relativeClickPosition[maxAxis]) > Math.abs(relativeClickPosition[minAxis])) {
 		axis = maxAxis;
 		deltaMeshToPlace = boundingBoxMeshToPlace.maximum[axis];
 		deltaTargetMesh = boundingBoxTargetMesh.minimum[axis];
@@ -159,7 +166,7 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 
 	// check if target mesh is some kind of flat ground like tiledGround, ground or plane
 	var targetMeshBoundingBox = targetMesh.getBoundingInfo().boundingBox;
-	if(targetMeshBoundingBox.maximum.y == targetMeshBoundingBox.minimum.y){
+	if (targetMeshBoundingBox.maximum.y == targetMeshBoundingBox.minimum.y) {
 		targetPositionInGrid = new BABYLON.Vector3(
 			Math.round(targetPoint.x * gridSize) / gridSize,
 			Math.round(targetPosition.y * gridSize) / gridSize,
@@ -170,7 +177,7 @@ MeshManager.prototype.placeMesh = function(targetMesh, targetPoint){
 	mesh.position = targetPositionInGrid;
 };
 
-MeshManager.prototype.cancelPlacing = function(){
+MeshManager.prototype.cancelPlacing = function () {
 	this.meshBlueprintToPlace = null;
 };
 
@@ -187,9 +194,9 @@ MeshManager.prototype.selectMeshById = function (id) {
  * @param mesh
  * @param scene
  */
-MeshManager.prototype.activateEditControl = function(mesh, scene){
+MeshManager.prototype.activateEditControl = function (mesh, scene) {
 	//mesh.rotationQuaternion = null;
-	if(!this.editControl) {
+	if (!this.editControl) {
 		this.initEditControl(mesh, scene);
 	} else {
 		this.editControl.switchTo(mesh);
@@ -201,7 +208,7 @@ MeshManager.prototype.activateEditControl = function(mesh, scene){
  * @param mesh
  * @param scene
  */
-MeshManager.prototype.initEditControl = function(mesh, scene){
+MeshManager.prototype.initEditControl = function (mesh, scene) {
 	var EditControl = org.ssatguru.babylonjs.component.EditControl;
 	this.editControl = new EditControl(mesh, scene.activeCamera, canvas, 0.5);
 	this.editControl.setTransSnapValue(0.1);
@@ -230,7 +237,7 @@ MeshManager.prototype.selectMesh = function (mesh) {
  * clears the currently selected mesh
  */
 MeshManager.prototype.deselectMesh = function (mesh) {
-	if(this.editControl) {
+	if (this.editControl) {
 		this.editControl.detach();
 		this.editControl = null;
 	}
@@ -245,7 +252,7 @@ MeshManager.prototype.deselectMesh = function (mesh) {
  * clears all currently selected meshes
  */
 MeshManager.prototype.deselectAllMeshes = function () {
-	if(this.editControl) {
+	if (this.editControl) {
 		this.editControl.detach();
 		this.editControl = null;
 	}
@@ -263,7 +270,7 @@ MeshManager.prototype.disposeMeshWithId = function (id) {
 };
 
 MeshManager.prototype.disposeMesh = function (mesh) {
-	if(mesh.customOutline){
+	if (mesh.customOutline) {
 		mesh.customOutline.dispose();
 	}
 	if (mesh == this.selectedMesh) {
@@ -272,7 +279,7 @@ MeshManager.prototype.disposeMesh = function (mesh) {
 	delete this.meshes[mesh.id];
 	mesh.dispose();
 
-	if(this.editControl) {
+	if (this.editControl) {
 		this.editControl.detach();
 		this.editControl = null;
 	}
@@ -325,13 +332,13 @@ MeshManager.prototype.clearAllHighlightedMeshes = function () {
 /**
  * resets the mesh manager
  */
-MeshManager.prototype.reset = function(scene){
+MeshManager.prototype.reset = function (scene) {
 	this.scene = scene;
 
 	this.meshes = {};
 	this.meshBlueprintToPlace = null;
 	this.selectedMeshes = [];
-	if(this.editControl) {
+	if (this.editControl) {
 		this.editControl.detach();
 	}
 	this.editControl = null;
@@ -342,7 +349,7 @@ MeshManager.prototype.reset = function(scene){
 /**
  * init meshes by checking if there are already meshes in the scene
  */
-MeshManager.prototype.initMeshesInScene = function(){
+MeshManager.prototype.initMeshesInScene = function () {
 	console.log(scene.meshes);
 	for (var i = 0; i < this.scene.meshes.length; i++) {
 		var mesh = this.scene.meshes[i];
@@ -351,4 +358,8 @@ MeshManager.prototype.initMeshesInScene = function(){
 		}
 		this.meshes[mesh.id] = mesh;
 	}
+};
+
+MeshManager.prototype.convertToFlatShaded = function (mesh) {
+	mesh.convertToFlatShadedMesh();
 };

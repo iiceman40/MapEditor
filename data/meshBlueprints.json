@@ -48,5 +48,55 @@
         "type": "number"
       }
     }
+  },
+  {
+    "id": "cylinder",
+    "options": {
+      "height": {
+        "value": 1,
+        "type": "number"
+      },
+      "diameter": {
+        "value": null,
+        "type": "number"
+      },
+      "diameterTop": {
+        "value": null,
+        "type": "number"
+      },
+      "diameterBottom": {
+        "value": null,
+        "type": "number"
+      },
+      "tessellation": {
+        "value": null,
+        "type": "number"
+      },
+      "subdivisions": {
+        "value": null,
+        "type": "number"
+      },
+      "arc": {
+        "value": null,
+        "type": "number"
+      }
+    }
+  },
+  {
+    "id": "torus",
+    "options": {
+      "thickness": {
+        "value": null,
+        "type": "number"
+      },
+      "diameter": {
+        "value": null,
+        "type": "number"
+      },
+      "tessellation": {
+        "value": null,
+        "type": "number"
+      }
+    }
   }
 ]

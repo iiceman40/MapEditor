@@ -1,3 +1,5 @@
+'use strict';
+
 var TextureManager = function (assetsManager, scene) {
 	this.scene = scene;
 	this.assetsManager = assetsManager;
@@ -10,7 +12,7 @@ TextureManager.prototype.initTextures = function (texturesData) {
 
 	assetsManager.onFinish = function (tasks) {
 		console.log('finished loading textures', self.textures);
-		if(!materialManager.materials.length && materialManager.materialsData) {
+		if (!materialManager.materials.length && materialManager.materialsData) {
 			materialManager.initMaterials(materialManager.materialsData);
 		}
 	};
@@ -26,7 +28,7 @@ TextureManager.prototype.addTexture = function (data) {
 	var self = this;
 	// TODO
 	var textureTask = assetsManager.addTextureTask("texture task", data.url);
-	textureTask.onSuccess = function(task) {
+	textureTask.onSuccess = function (task) {
 		return self.textures[data.id] = task.texture;
 	};
 };
@@ -34,7 +36,7 @@ TextureManager.prototype.addTexture = function (data) {
 TextureManager.prototype.reset = function (scene) {
 	this.scene = scene;
 	this.textures = {};
-	if(this.texturesData) {
+	if (this.texturesData) {
 		this.initTextures(this.texturesData);
 	}
 };
